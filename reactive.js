@@ -36,10 +36,10 @@ function reactive(target){
       track(target, key)
       return result
     },
-    set(target, key, recevier){
+    set(target, key, value, recevier){
       let oldVal = target[key]
-      let result = Reflect.set(target, key, recevier)
-      if( oldVal != result){
+      let result = Reflect.set(target, key, value, recevier)
+      if( result && oldVal != value){
         trigger(target, key)
       }
     }
