@@ -44,6 +44,6 @@ new myPromise((resolve, reject) => {
   resolve("success")
 }).then(res => console.log(res), err => console.log(err))
 
-// new myPromise((resolve, reject) => {
-//   reject("failed")
-// }).then(res => console.log(res), err => console.log(err))
+new myPromise((resolve, reject) => {
+  reject("failed")
+}).then(res => console.log(res), err => console.log(err))
