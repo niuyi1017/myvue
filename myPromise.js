@@ -3,19 +3,27 @@ function myPromise(executor){
   this.value = null
   this.reason = null
   this.status = "pending"
-
+  this.onResolvedQueue = []
+  this.onRejectedQueue = []
   let _this = this
+
+  
 
   function resolve(value){
     _this.value = value
     console.log("myPromise resolve _this")
-    console.log(_this)
-    _this.status = 'resolved'
+   
+    setTimeout(() => {
+      _this.onResolvedQueue.forEach(resolve => resolve())
+    })
   }
 
   function reject(reason){
     _this.reason = reason
     _this.status = 'rejected'
+    setTimeout(() => {
+      _this.onRejectedQueue.forEach(reject => reject())
+    })
   }
 
   executor(resolve, reject)
@@ -30,20 +38,24 @@ myPromise.prototype.then = function (onResolved, onRejected){
     onRejected = function(x){ return x}
   }
   var _this = this
-  console.log("then  _this")
-  console.log(_this)
 
   if(_this.status == 'resolved'){
     onResolved(_this.value)
   }else if(_this.status == 'rejected'){
     onRejected(_this.reason)
+  }else if(_this.status == 'pending'){
+    _this.onResolvedQueue.push(onResolved)
+    _this.onRejectedQueue.push(onRejected)
   }
+
+  return this
 }
 
 new myPromise((resolve, reject) => {
   resolve("success")
 }).then(res => console.log(res), err => console.log(err))
+  .then(res => console.log(res, "2then"))
 
-new myPromise((resolve, reject) => {
-  reject("failed")
-}).then(res => console.log(res), err => console.log(err))
+// new myPromise((resolve, reject) => {
+//   reject("failed")
+// }).then(res => console.log(res), err => console.log(err))
