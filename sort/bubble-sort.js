@@ -1,7 +1,8 @@
 let arr = [1,5,9,5,3,1,5,7,9,2,5]
 let arr2 = [] 
-for(let i = 0; i<100000; i++){
-  arr2.push(Math.ceil( Math.random()*100))
+let n = 10
+for(let i = 0; i<n; i++){
+  arr2.push(n-i)
 }
 
 // 冒泡
@@ -25,7 +26,8 @@ function selectSort(arr){
   for(let i = 0; i< arr.length; i++){
     let minIndex = i
     let temp 
-    for(let j = i+1; j < arr.length-1; j++){
+    let j
+    for(j = i; j < arr.length-1; j++){
       if(arr[j] < arr[minIndex]){
         minIndex = j
       }
@@ -62,8 +64,8 @@ function insertSort(arr){
 let start = new Date().getTime()
 
 // bubbleSort(arr2)
-// selectSort(arr2)
-insertSort(arr2)
+selectSort(arr2)
+// insertSort(arr2)
 let end = new Date().getTime()
 
 console.log(end - start)
